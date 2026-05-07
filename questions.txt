@@ -1,0 +1,23 @@
+# Questions
+
+1. GitHub Events API provides only recent public events (~90 days / limited events).
+Is this limitation acceptable for the exercise, or should historical persistence
+be implemented?
+
+2. Should all GitHub event types be included in analytics,
+or only engineering-related activities such as commits, pull requests, comments and merged?
+
+3. In case of GitHub API rate limiting, should the service retry automatically,
+or fail gracefully with an error response?
+
+4. Should forked repositories be treated differently from original repositories
+during ownership analysis?
+
+5. Is authentication intentionally excluded for the exercise,
+or should OAuth / Personal Access Token support be added for production readiness?
+
+6. Should the final response remain console-based JSON output,
+or should the solution expose an API endpoint as well?
+
+7. Are there any expectations around automated testing
+(RSpec / unit tests) for the exercise?

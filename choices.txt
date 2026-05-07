@@ -1,0 +1,73 @@
+# Choices
+
+1. Used a Service Object Pattern
+--------------------------------
+The solution was implemented using a dedicated service class (`GithubEventsService`)
+to keep the logic modular, reusable, and maintainable.
+
+2. Used GitHub Public Events API
+--------------------------------
+Used:
+https://api.github.com/users/:username/events/public
+
+This API provides recent public activity for a GitHub user without requiring authentication.
+There was an option for token based as well, but used the public as token based is recommended for higher rate limits.
+
+3. Optimized API Calls
+-----------------------
+GitHub events are returned in reverse chronological order (latest first).
+
+To avoid unnecessary API requests, the loop stops immediately once an event
+older than the requested timeframe is encountered.
+
+This significantly improves performance for users with large activity histories.
+
+4. Timeframe Filtering
+-----------------------
+The service accepts `days` as input instead of explicit timestamps
+to simplify usage and improve readability.
+
+Example:
+days: 7
+
+5. Repository-wise Aggregation
+-------------------------------
+Events are grouped repository-wise using:
+event["repo"]["name"]
+
+This helps generate repository-level activity summaries.
+
+6. Ownership Detection
+-----------------------
+A repository is marked as owned if:
+repository_owner == username
+
+This was derived directly from the repository name:
+owner/repository_name.
+There is another option to hit an individual API for owner details, but I chose to derive it from events API's response itself.
+
+7. Top Event Calculation
+-------------------------
+The top 3 event types are calculated using frequency counting (`tally`)
+and sorted in descending order.
+
+8. Assumptions & Limitations
+-----------------------------
+- GitHub Events API only provides recent public events.
+- Historical activity beyond GitHub's retention window is unavailable.
+- Private repository activity cannot be accessed.
+- No authentication token was used for simplicity and as token based is recommended for higher rate limits.
+
+9. AI Usage
+---------------------------
+- Used AI assistance for improving and polishing documentation such as README.md and supporting text files.
+- Used AI to explore GitHub Events API capabilities, limitations, and alternative implementation approaches.
+- Used AI to identify potential edge cases and optimization opportunities for the solution.
+- Used AI as a research and refinement tool while keeping the implementation, architecture decisions, and
+  final solution logic fully reviewed and validated manually.
+
+10. Potential Improvements
+---------------------------
+- Add retry handling for API failures
+- Add GitHub rate limit handling
+- Add caching
